@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Conchiglia Spaziale</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            background-color: #1a1a2e;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .comic-panel {
+            background-color: #ffffff;
+            color: #000000;
+            border: 4px solid #0f3460;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 10px 10px 0px #e94560;
+            text-align: center;
+            display: none; /* Nascosto di default */
+        }
+        .active-panel {
+            display: block; /* Mostra il pannello attivo */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        h2 {
+            color: #e94560;
+            margin-top: 0;
+        }
+        .emoji-art {
+            font-size: 60px;
+            margin: 15px 0;
+        }
+        button {
+            background-color: #0f3460;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            font-family: inherit;
+            transition: transform 0.1s;
+        }
+        button:hover {
+            background-color: #e94560;
+            transform: scale(1.05);
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #0f3460;
+            border-radius: 5px;
+            font-family: monospace;
+            width: 80%;
+            margin-top: 10px;
+        }
+        .lever-container {
+            margin: 20px 0;
+            font-size: 24px;
+        }
+        input[type="range"] {
+            width: 80%;
+            cursor: pointer;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SCENA 0: INIZIO -->
+    <div id="scene-0" class="comic-panel active-panel">
+        <h2>Il Risveglio</h2>
+        <div class="emoji-art">🐚 🚀</div>
+        <p>Sei una piccola ma coraggiosa conchiglia. Ti sei appena risvegliata all'interno di una navicella spaziale sconosciuta.</p>
+        <p>È il momento di prendere una decisione sul tuo destino. Devi lanciare il dado quantico!</p>
+        <p><em>(Da 1 a 3: Vai fuori ad esplorare. Da 4 a 6: Cerchi la rotta per Alfa Centauri)</em></p>
+        <button onclick="lanciaDado()">Lancia il dado 🎲</button>
+    </div>
+
+    <!-- SCENA 1A: ESPLORAZIONE -->
+    <div id="scene-1a" class="comic-panel">
+        <h2>Incontro Stellare</h2>
+        <div class="emoji-art">👽 💫</div>
+        <p>Sei uscita ad esplorare e incontri una bellissima aliena disperata.</p>
+        <p>"Oh, ciao piccola conchiglia! Sto cercando la mia cometa, mi è sfuggita di mano... Per caso nel tuo peregrinare hai visto una scia di ghiaccio e luce da queste parti?"</p>
+        <button onclick="changeScene('scene-2a')">Sì, l'ho incontrata dalle parti di Saturno</button>
+        <button onclick="changeScene('scene-2b')">No, ma posso aiutarti a cercarla</button>
+    </div>
+
+    <!-- SCENA 1B: ALFA CENTAURI -->
+    <div id="scene-1b" class="comic-panel">
+        <h2>Rotta verso Alfa Centauri</h2>
+        <div class="emoji-art">💻 🌌 <img src="Gemini_Generated_Image_xwarf8xwarf8xwar.png" width="300"></div>
+        <p>Hai trovato la rotta per Alfa Centauri sul pannello dei comandi!</p>
+        <p>Ora devi far partire la navicella. Inserisci il comando esatto: <strong>/start</strong></p>
+        <input type="text" id="cmd-input" placeholder="Digita qui il comando..." autocomplete="off">
+        <br>
+        <button onclick="avviaNavicella()">Esegui Comando 🚀</button>
+    </div>
+
+    <!-- SCENA 2A: SATURNO E LA LEVA -->
+    <div id="scene-2a" class="comic-panel">
+        <h2>Verso gli Anelli di Saturno</h2>
+        <div class="emoji-art">🪐 🕹️</div>
+        <p>Hai detto all'aliena che la cometa è vicino a Saturno. Ora devi accompagnarla sul terzo anello.</p>
+        <p><strong>Istruzioni del capitano Conchiglia:</strong> Sposta la leva di navigazione da Sinistra a Destra per <strong>esattamente 2 volte</strong>, poi clicca su "Viaggia".</p>
+        
+        <div class="lever-container">
+            Sinistra <input type="range" min="0" max="1" step="1" value="0" id="leva" onchange="aggiornaLeva()"> Destra
+        </div>
+        <p>Movimenti Sinistra -> Destra completati: <span id="contatore-leva">0</span></p>
+        <button onclick="viaggiaSaturno()">Viaggia! 🛸</button>
+    </div>
+
+    <!-- SCENA 2B: AIUTO (FINALE ALTERNATIVO) -->
+    <div id="scene-2b" class="comic-panel">
+        <h2>Una Nuova Amicizia</h2>
+        <div class="emoji-art">🤝 🔭</div>
+        <p>Hai deciso di essere onesto e di offrire il tuo aiuto. Tu e l'aliena vi mettete ai comandi della navicella, pronti a scandagliare l'intero universo pur di ritrovare la sua cometa perduta.</p>
+        <p><strong>FINE DELLA PRIMA PUNTATA!</strong></p>
+        <button onclick="location.reload()">Ricomincia</button>
+    </div>
+
+    <!-- SCENE DI SUCCESSO E FINE -->
+    <div id="scene-success-alfa" class="comic-panel">
+        <h2>Viaggio a Velocità Curvatura!</h2>
+        <div class="emoji-art">🌠 🚀</div>
+        <p>Comando accettato! I motori si accendono e la piccola conchiglia parte a tutta velocità verso Alfa Centauri.</p>
+        <p><strong>FINE DELLA PRIMA PUNTATA!</strong></p>
+        <button onclick="location.reload()">Ricomincia</button>
+    </div>
+
+    <div id="scene-success-saturno" class="comic-panel">
+        <h2>Atterraggio Perfetto!</h2>
+        <div class="emoji-art">🪐 ☄️</div>
+        <p>Manovra da maestro! La navicella atterra dolcemente sul terzo anello di Saturno. L'aliena ritrova la sua cometa e ti ringrazia regalandoti una perla di polvere di stelle.</p>
+        <p><strong>FINE DELLA PRIMA PUNTATA!</strong></p>
+        <button onclick="location.reload()">Ricomincia</button>
+    </div>
+
+    <script>
+        // Funzione per cambiare scena
+        function changeScene(sceneId) {
+            // Nasconde tutte le scene
+            const panels = document.querySelectorAll('.comic-panel');
+            panels.forEach(panel => panel.classList.remove('active-panel'));
+            
+            // Mostra la scena richiesta
+            document.getElementById(sceneId).classList.add('active-panel');
+        }
+
+        // SCENA 0: Lancio del dado
+        function lanciaDado() {
+            let risultato = Math.floor(Math.random() * 6) + 1;
+            alert("Hai lanciato il dado... È uscito " + risultato + "!");
+            
+            if (risultato >= 1 && risultato <= 3) {
+                changeScene('scene-1a');
+            } else {
+                changeScene('scene-1b');
+            }
+        }
+
+        // SCENA 1B: Controllo comando navicella
+        function avviaNavicella() {
+            let comando = document.getElementById('cmd-input').value.trim();
+            if (comando === "/start") {
+                changeScene('scene-success-alfa');
+            } else {
+                alert("PPRRRRRRRRRR! 💨 (La navicella ti fa una sonora pernacchia!)");
+                document.getElementById('cmd-input').value = ""; // Resetta il campo
+            }
+        }
+
+        // SCENA 2A: Logica della leva
+        let movimentiLeva = 0;
+        let statoPrecedente = "0"; // 0 = Sinistra, 1 = Destra
+
+        function aggiornaLeva() {
+            let statoAttuale = document.getElementById('leva').value;
+            
+            // Se la leva passa da Sinistra (0) a Destra (1), conta un movimento
+            if (statoPrecedente === "0" && statoAttuale === "1") {
+                movimentiLeva++;
+                document.getElementById('contatore-leva').innerText = movimentiLeva;
+            }
+            
+            statoPrecedente = statoAttuale;
+        }
+
+        function viaggiaSaturno() {
+            if (movimentiLeva === 2) {
+                changeScene('scene-success-saturno');
+            } else {
+                alert("PPRRRRRRRRRR! 💨 (Hai sbagliato manovra e la navicella ti fa una pernacchia!)");
+                // Resetta la leva e il contatore
+                movimentiLeva = 0;
+                statoPrecedente = "0";
+                document.getElementById('leva').value = "0";
+                document.getElementById('contatore-leva').innerText = movimentiLeva;
+            }
+        }
+    </script>
+</body>
+</html>
