@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Ritmo del Cuore - Sprunki Comic</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --panel-bg: #2d2d2d;
+            --text-color: #ffffff;
+            --accent-pink: #ff85a2;
+            --gray-char: #808080;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .comic-container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            border: 4px solid #000;
+            margin-bottom: 30px;
+            padding: 20px;
+            position: relative;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 8px;
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            opacity: 0.3;
+            filter: grayscale(1);
+        }
+
+        .panel.active {
+            opacity: 1;
+            filter: grayscale(0);
+            transform: scale(1.02);
+            border-color: var(--accent-pink);
+        }
+
+        .character-box {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 150px;
+            margin-bottom: 15px;
+        }
+
+        /* Avatar stilizzati */
+        .gray, .wenda {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .gray { background: var(--gray-char); border: 3px solid #555; }
+        .wenda { background: #fff; border: 3px solid var(--accent-pink); }
+
+        /* Orecchie Wenda */
+        .wenda::before, .wenda::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            width: 0; height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 25px solid var(--accent-pink);
+        }
+        .wenda::before { left: 5px; transform: rotate(-20deg); }
+        .wenda::after { right: 5px; transform: rotate(20deg); }
+
+        /* Effetti speciali */
+        .blush { background: #ff99bb !important; box-shadow: 0 0 20px #ff99bb; }
+        
+        .bubble {
+            background: white;
+            color: black;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            max-width: 80%;
+            margin: 10px auto;
+            position: relative;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .thought { border-radius: 50px; border: 2px dashed #ccc; }
+
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            font-size: 24px;
+            animation: pulse 1s infinite;
+            display: none;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .footer-text {
+            text-align: center;
+            font-style: italic;
+            color: var(--accent-pink);
+            margin-top: 20px;
+            font-size: 1.2rem;
+            display: none;
+        }
+
+        .instruction {
+            margin-bottom: 20px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>IL RITMO DEL CUORE</h1>
+    <p class="instruction">Clicca sulle vignette per far avanzare la storia</p>
+
+    <div class="comic-container">
+        <!-- Vignetta 1 -->
+        <div class="panel active" id="p1" onclick="nextPanel(2)">
+            <div class="character-box">
+                <div class="gray"></div>
+            </div>
+            <div class="bubble thought">
+                "Sono solo una nota triste in una canzone allegra..."
+            </div>
+        </div>
+
+        <!-- Vignetta 2 -->
+        <div class="panel" id="p2" onclick="nextPanel(3)">
+            <div class="character-box">
+                <div class="gray"></div>
+                <div class="wenda" id="wenda2"></div>
+            </div>
+            <div class="bubble">
+                "Hey, Gray! Perché quel muso lungo? Manca il tuo beat per completare la mia melodia!"
+            </div>
+        </div>
+
+        <!-- Vignetta 3 -->
+        <div class="panel" id="p3" onclick="nextPanel(4)">
+            <div class="character-box">
+                <div class="gray" id="gray-blush"></div>
+                <div class="wenda"></div>
+            </div>
+            <div class="bubble">
+                "Io... non pensavo che la mia musica ti servisse davvero."
+            </div>
+            <div class="bubble" style="background: #ffe6eb;">
+                "Senza di te, il mio ritmo è solo rumore. Sei la mia parte preferita del mix."
+            </div>
+        </div>
+
+        <!-- Vignetta 4 -->
+        <div class="panel" id="p4" onclick="finish()">
+            <div class="character-box">
+                <div class="gray blush" style="transform: translateX(20px);"></div>
+                <div class="wenda" style="transform: translateX(-20px);"></div>
+                <span class="heart" style="top:20%; left:30%; display:block;">❤️</span>
+                <span class="heart" style="top:40%; right:20%; display:block; animation-delay: 0.3s;">💖</span>
+                <span class="heart" style="bottom:20%; left:50%; display:block; animation-delay: 0.6s;">💜</span>
+            </div>
+            <div class="footer-text" id="final-text">
+                Due suoni diversi, una sola canzone.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function nextPanel(num) {
+            const next = document.getElementById('p' + num);
+            if (next) {
+                next.classList.add('active');
+                next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                if(num === 3) {
+                    setTimeout(() => {
+                        document.getElementById('gray-blush').classList.add('blush');
+                    }, 500);
+                }
+            }
+        }
+
+        function finish() {
+            document.getElementById('final-text').style.display = 'block';
+            // Aggiunge vibrazione alle orecchie di Wenda nel finale
+            const hearts = document.querySelectorAll('.heart');
+            hearts.forEach(h => h.style.display = 'block');
+        }
+    </script>
+</body>
+</html>

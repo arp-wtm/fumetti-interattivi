@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Segreto della Montagna - Fumetto Interattivo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        #game-container {
+            background-color: #16213e;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 { color: #4ecca3; margin-bottom: 20px; }
+        .scene-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            min-height: 120px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        button {
+            background-color: #0f3460;
+            color: white;
+            border: 2px solid #4ecca3;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background-color: #4ecca3;
+            color: #1a1a2e;
+            transform: translateY(-2px);
+        }
+        #restart-btn {
+            background-color: #e94560;
+            border-color: #e94560;
+            display: none;
+            margin-top: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <h1>🏔️ Elian e il Segreto della Montagna</h1>
+    <div id="scene-description" class="scene-text"></div>
+    <div id="options-container" class="options"></div>
+    <button id="restart-btn" onclick="startGame()">Ricomincia l'avventura</button>
+</div>
+
+<script>
+    const story = {
+        scene1: {
+            text: "Scena 1: Elian sta spaccando la legna quando Marco e Gabriel arrivano di corsa. Marco stringe una vecchia mappa di cuoio: 'Dobbiamo andare alla Gola del Vento!'",
+            options: [
+                { text: "Segui l'istinto impulsivo di Marco verso la Gola", nextScene: 'scene2' },
+                { text: "Ascolta Gabriel e vai prima dal saggio del villaggio", nextScene: 'scene2' }
+            ]
+        },
+        scene2: {
+            text: "Scena 2: Durante il cammino, l'unico ponte di corda cede improvvisamente! Davanti a voi si apre un baratro profondo.",
+            options: [
+                { text: "Scala la parete rocciosa per aggirare il crepaccio", nextScene: 'scene3' },
+                { text: "Scendi nella valle boscosa della creatura antica", nextScene: 'scene3' }
+            ]
+        },
+        scene3: {
+            text: "Scena 3: Mentre riposate, spunta dalle ombre un enorme automa di pietra e ingranaggi. Sembra osservarvi con occhi di luce fioca.",
+            options: [
+                { text: "Marco estrae la spada per difendere il gruppo", nextScene: 'scene4' },
+                { text: "Gabriel chiede a Elian di suonare il flauto per l'automa", nextScene: 'scene4' }
+            ]
+        },
+        scene4: {
+            text: "Scena 4: Superato l'ostacolo, entrate in una grotta dietro una cascata ghiacciata. Una luce azzurra intensa brilla all'interno.",
+            options: [
+                { text: "Guarda nel cristallo che mostra il futuro del villaggio", nextScene: 'scene5' },
+                { text: "Esplora l'osservatorio e scopri la miniera d'oro", nextScene: 'scene5' }
+            ]
+        },
+        scene5: {
+            text: "Scena 5: Tornate al villaggio come eroi. La vostra scoperta cambierà tutto per sempre. Cosa farete?",
+            options: [
+                { text: "Distruggi la mappa per proteggere la pace (Fine)", nextScene: 'end' },
+                { text: "Fonda un'accademia per giovani esploratori (Fine)", nextScene: 'end' }
+            ]
+        },
+        end: {
+            text: "Fine dell'avventura! Grazie per aver giocato la storia di Elian, Marco e Gabriel.",
+            options: []
+        }
+    };
+
+    function startGame() {
+        showScene('scene1');
+        document.getElementById('restart-btn').style.display = 'none';
+    }
+
+    function showScene(sceneKey) {
+        const scene = story[sceneKey];
+        document.getElementById('scene-description').innerText = scene.text;
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+
+        if (scene.options.length === 0) {
+            document.getElementById('restart-btn').style.display = 'block';
+            return;
+        }
+
+        scene.options.forEach(option => {
+            const button = document.createElement('button');
+            button.innerText = option.text;
+            button.onclick = () => showScene(option.nextScene);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    startGame();
+</script>
+
+</body>
+</html>

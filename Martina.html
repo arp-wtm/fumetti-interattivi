@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebbia e il Vento</title>
+    <style>
+        :root {
+            --bg-color: #1a1a2e;
+            --text-color: #e0e0e0;
+            --accent-color: #4e4e6a;
+            --cat-eye: #a4c3b2;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #comic-container {
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            background: #16213e;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--accent-color);
+        }
+
+        #scene-display {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Elementi Grafici Dinamici */
+        .visual-element {
+            transition: all 1s ease;
+            position: absolute;
+        }
+
+        .window {
+            width: 200px;
+            height: 250px;
+            border: 8px solid #333;
+            background: linear-gradient(to bottom, #1a1a2e, #0f3460);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .sea {
+            width: 100%;
+            height: 40%;
+            background: #0f3460;
+            animation: wave 3s infinite ease-in-out;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        .cat-silhouette {
+            width: 60px;
+            height: 80px;
+            background: #444;
+            border-radius: 50% 50% 0 0;
+            position: relative;
+            bottom: 0;
+        }
+
+        .cat-silhouette::before, .cat-silhouette::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            width: 0; height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid #444;
+        }
+        .cat-silhouette::before { left: 5px; }
+        .cat-silhouette::after { right: 5px; }
+
+        #text-box {
+            height: 30%;
+            padding: 25px;
+            background: rgba(15, 52, 96, 0.9);
+            border-top: 2px solid var(--accent-color);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #narrative-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .click-hint {
+            font-size: 0.8rem;
+            color: #888;
+            text-align: right;
+            font-style: italic;
+        }
+
+        /* Stati Emotivi */
+        .gray-scale { filter: grayscale(100%); }
+        .fade-out { opacity: 0; }
+        .darken { background: #000 !important; }
+
+    </style>
+</head>
+<body>
+
+<div id="comic-container">
+    <div id="scene-display">
+        <div id="visual-frame" class="window">
+            <div class="sea"></div>
+            <div id="cat-actor" class="cat-silhouette"></div>
+        </div>
+    </div>
+    <div id="text-box" onclick="nextStep()">
+        <div id="narrative-text"></div>
+        <div class="click-hint">Clicca per continuare...</div>
+    </div>
+</div>
+
+<script>
+    const story = [
+        { text: "Martina aveva diciassette anni e viveva vicino al mare. Le sue giornate erano silenziose. Troppo silenziose.", color: "#1a1a2e" },
+        { text: "L’unico che riusciva a riempire quel vuoto era Nebbia, un soriano grigio dagli occhi verdi.", color: "#1a1a2e" },
+        { text: "Nebbia la seguiva ovunque: mentre studiava, mentre cucinava, mentre piangeva in silenzio.", color: "#1a1a2e" },
+        { text: "Ogni sera guardavano il mare nero. Martina gli raccontava i suoi sogni. E Nebbia ascoltava. Sempre.", color: "#0f3460" },
+        { text: "Poi arrivò novembre. Nebbia iniziò a mangiare meno. Dormiva troppo.", color: "#2d3436" },
+        { text: "La diagnosi del veterinario fu una porta sbattuta in faccia: una malattia grave.", color: "#000", gray: true },
+        { text: "Martina passò settimane accanto a lui sul pavimento. 'Non lasciarmi', sussurrò una notte.", color: "#000", gray: true },
+        { text: "Ma il mattino dopo, il silenzio della casa era diventato assoluto. Nebbia non c'era più.", color: "#000", catAlpha: 0 },
+        { text: "Per giorni, Martina sentì solo un vuoto enorme. Il mare fuori continuava a muoversi, incurante.", color: "#1a1a2e", catAlpha: 0 },
+        { text: "Una sera, Martina si sedette di nuovo sul davanzale con il vecchio collarino tra le mani.", color: "#1a1a2e", catAlpha: 0 },
+        { text: "E sorrise. Capì che alcune creature restano con noi anche dopo essere andate via.", color: "#2d4263", catAlpha: 0.3 },
+        { text: "Ogni volta che il vento entrava dalla finestra, le sembrava ancora di sentire le sue fusa.", color: "#1a1a2e", catAlpha: 0.5, final: true }
+    ];
+
+    let currentStep = 0;
+
+    function nextStep() {
+        if (currentStep < story.length) {
+            const data = story[currentStep];
+            const textEl = document.getElementById('narrative-text');
+            const catEl = document.getElementById('cat-actor');
+            const frameEl = document.getElementById('visual-frame');
+            
+            // Aggiorna testo
+            textEl.style.opacity = 0;
+            setTimeout(() => {
+                textEl.innerText = data.text;
+                textEl.style.opacity = 1;
+            }, 300);
+
+            // Effetti visuali
+            if (data.gray) {
+                frameEl.classList.add('gray-scale');
+            } else {
+                frameEl.classList.remove('gray-scale');
+            }
+
+            if (data.catAlpha !== undefined) {
+                catEl.style.opacity = data.catAlpha;
+                if(data.catAlpha > 0 && data.catAlpha < 1) {
+                    catEl.style.filter = "blur(2px)";
+                }
+            }
+
+            document.body.style.backgroundColor = data.color;
+            
+            currentStep++;
+        } else {
+            // Reset o fine
+            currentStep = 0;
+            nextStep();
+        }
+    }
+
+    // Inizia la storia
+    nextStep();
+</script>
+
+</body>
+</html>

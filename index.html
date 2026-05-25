@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Grande Libreria dei Fumetti Interattivi!</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            background-color: #1a1a2e;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        h1 {
+            color: #e94560;
+            text-align: center;
+            font-size: 2.8rem;
+            text-shadow: 3px 3px 0px #0f3460;
+            margin-bottom: 10px;
+        }
+        p.subtitle {
+            font-size: 1.3rem;
+            color: #4ecc71;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        .game-card {
+            background-color: #ffffff;
+            color: #000000;
+            border: 4px solid #0f3460;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 8px 8px 0px #e94560;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 160px;
+        }
+        .game-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px #e94560;
+            background-color: #f8f9fa;
+        }
+        .game-card:active {
+            transform: translate(4px, 4px);
+            box-shadow: 4px 4px 0px #e94560;
+        }
+        .icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+        .title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0f3460;
+            line-height: 1.3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 La Grande Libreria dei Fumetti Interattivi! 🪐</h1>
+    <p class="subtitle">Scegli una copertina, clicca e tuffati in una nuova avventura!</p>
+
+    <div class="grid-container">
+
+        <a href="AunguriaFelice.html" class="game-card">
+            <div class="icon">🍉</div>
+            <div class="title">Anguria Felice</div>
+        </a>
+
+        <a href="AvventureDiShell.html" class="game-card">
+            <div class="icon">🐚</div>
+            <div class="title">Le Avventure di Shell</div>
+        </a>
+
+        <a href="Elian.html" class="game-card">
+            <div class="icon">⛰️</div>
+            <div class="title">Elian: Il Segreto della Montagna</div>
+        </a>
+
+        <a href="Gastone.html" class="game-card">
+            <div class="icon">🐊</div>
+            <div class="title">Le Patatine Sacre di Gastone</div>
+        </a>
+
+        <a href="IlRitmoDelCuore.html" class="game-card">
+            <div class="icon">🎵</div>
+            <div class="title">Il Ritmo del Cuore</div>
+        </a>
+
+        <a href="Invincible.html" class="game-card">
+            <div class="icon">🦸‍♂️</div>
+            <div class="title">Invincible: Il Ritorno</div>
+        </a>
+
+        <a href="LaConchigliaSpaziale.html" class="game-card">
+            <div class="icon">🚀</div>
+            <div class="title">La Conchiglia Spaziale</div>
+        </a>
+
+        <a href="LAMoreTraFarahEYamal.html" class="game-card">
+            <div class="icon">📖</div>
+            <div class="title">Il Rumore dei Giorni (Farah & Yamal)</div>
+        </a>
+
+        <a href="Martina.html" class="game-card">
+            <div class="icon">🐈‍⬛</div>
+            <div class="title">Nebbia e il Vento (Martina)</div>
+        </a>
+
+        <a href="YamalACamaro.html" class="game-card">
+            <div class="icon">🏎️</div>
+            <div class="title">Yamal a Messina: Missione Camaro</div>
+        </a>
+
+    </div>
+
+</body>
+</html>

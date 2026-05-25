@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Rumore dei Giorni - Storia Interattiva</title>
+    <style>
+        :root {
+            --bg-color: #f0f4f8;
+            --accent-color: #2c3e50;
+            --text-color: #34495e;
+            --button-bg: #5dade2;
+            --button-hover: #3498db;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #game-container {
+            width: 90%;
+            max-width: 600px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        .scene-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            min-height: 150px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            background-color: var(--button-bg);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--button-hover);
+            transform: translateY(-2px);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .location-tag {
+            font-variant: small-caps;
+            letter-spacing: 2px;
+            color: #95a5a6;
+            margin-bottom: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <div id="scene-content">
+        <!-- Il contenuto verrà generato dal JavaScript -->
+    </div>
+</div>
+
+<script>
+    const story = {
+        start: {
+            location: "Porto di Messina",
+            text: "Farah cammina ogni mattina lungo il porto con le cuffie nelle orecchie e il suo quaderno stretto tra le mani. Il mare di Messina osserva in silenzio.",
+            options: [
+                { text: "Apri il quaderno e scrivi un pensiero", next: "pioggia" },
+                { text: "Guarda l'orizzonte e ascolta il mare", next: "pioggia" }
+            ]
+        },
+        pioggia: {
+            location: "Sotto una tettoia - Giorno di pioggia",
+            text: "Improvvisamente inizia a piovere. Una folata di vento strappa alcune pagine dal tuo quaderno. Un ragazzo corre a raccoglierle. È Yamal.",
+            options: [
+                { text: "Cerca di recuperare i fogli imbarazzata", next: "incontro" }
+            ]
+        },
+        incontro: {
+            location: "Incontro",
+            text: "Yamal legge una frase: 'Ci sono persone che arrivano all’improvviso e cambiano il rumore dei tuoi giorni'. Ti sorride e chiede: 'È tua?'",
+            options: [
+                { text: "Annuisci arrossendo: 'Scrivo quello che non riesco a dire'", next: "frequentazione" },
+                { text: "Sorridi timidamente: 'Sì, sono solo pensieri'", next: "frequentazione" }
+            ]
+        },
+        frequentazione: {
+            location: "Settimane dopo",
+            text: "Iniziate a vedervi spesso. Caffè, lunghe passeggiate e messaggi fino a notte fonda. Lui è impulsivo, tu sei riflessiva. Cosa ti colpisce di lui?",
+            options: [
+                { text: "La sua capacità di far ridere chiunque", next: "collina" },
+                { text: "Il modo in cui ti ascolta davvero", next: "collina" }
+            ]
+        },
+        collina: {
+            location: "Collina panoramica - Sera d'estate",
+            text: "Sotto un cielo pieno di stelle, Yamal ti prende la mano: 'Perché con gli altri sei distante e con me no?'",
+            options: [
+                { text: "'Perché con te non ho paura di essere capita'", next: "finale" }
+            ]
+        },
+        finale: {
+            location: "Oggi",
+            text: "Yamal ti stringe la mano: 'Allora non smettere mai di esserlo'. Hai capito che l'amore è qualcuno che resta. Ora il tuo quaderno non parla più di solitudine, ma di VOI.",
+            options: [
+                { text: "Ricomincia la storia", next: "start" }
+            ]
+        }
+    };
+
+    function renderScene(sceneKey) {
+        const container = document.getElementById('scene-content');
+        const scene = story[sceneKey];
+        
+        container.innerHTML = `
+            <div class="fade-in">
+                <span class="location-tag">${scene.location}</span>
+                <div class="scene-text">${scene.text}</div>
+                <div class="options">
+                    ${scene.options.map(opt => `<button onclick="renderScene('${opt.next}')">${opt.text}</button>`).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    // Avvio della storia
+    renderScene('start');
+</script>
+
+</body>
+</html>

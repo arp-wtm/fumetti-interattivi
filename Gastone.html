@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Patatine Sacre di Gastone</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        #game-container {
+            background-color: #ecf0f1;
+            color: #333;
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 15px;
+            border: 5px solid #f1c40f;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Bangers', cursive;
+            color: #e67e22;
+            font-size: 2.5em;
+            margin-top: 0;
+            letter-spacing: 2px;
+        }
+        .scene-image {
+            font-size: 80px;
+            margin: 20px 0;
+        }
+        .story-text {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            min-height: 100px;
+        }
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        button {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        button:hover {
+            background-color: #2ecc71;
+            transform: scale(1.03);
+        }
+        .btn-restart {
+            background-color: #e74c3c;
+            margin-top: 20px;
+        }
+        .status {
+            font-weight: bold;
+            color: #7f8c8d;
+            margin-top: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <h1>Gastone e le Patatine Sacre</h1>
+    <div id="image" class="scene-image">🛡️</div>
+    <div id="text" class="story-text">
+        Sei il signor Gastone, un cavaliere un po' fuori forma. Hai dimenticato l'ingrediente per la festa del Re: le patatine sacre! Sei al Market del Destino, ma un enorme Troll ti blocca: "Vuoi passare? Dammi una moneta d'oro!"
+    </div>
+    <div id="choices" class="btn-container">
+        <button onclick="choiceA()">A: Usi la diplomazia (Insta-Bread)</button>
+        <button onclick="choiceB()">B: Cerchi una vecchia signora (Fata?)</button>
+    </div>
+</div>
+
+<script>
+    const textElement = document.getElementById('text');
+    const choicesElement = document.getElementById('choices');
+    const imageElement = document.getElementById('image');
+
+    function updateScene(text, choicesHtml, emoji) {
+        textElement.innerHTML = text;
+        choicesElement.innerHTML = choicesHtml;
+        imageElement.innerHTML = emoji;
+    }
+
+    function restart() {
+        location.reload();
+    }
+
+    // --- PERCORSO A ---
+    function choiceA() {
+        updateScene(
+            "Il Troll non abbocca! Dice che dei tuoi follower su 'Insta-Bread' non se ne fa nulla. Vuole l'oro! Devi andare dal Mago Fausto per farti indicare dove trovare una moneta rarissima.",
+            '<button onclick="magoFausto()">Vai dal Mago Fausto</button>',
+            "📱"
+        );
+    }
+
+    function magoFausto() {
+        updateScene(
+            "Il Mago Fausto scuote la barba: 'Gastone, ci sono due strade davanti a te. Una porta all'oro, l'altra a una fine... gommosa'. Quale scegli?",
+            '<button onclick="loseA()">La strada a sinistra</button>' +
+            '<button onclick="winA()">La strada a destra</button>',
+            "🧙‍♂️"
+        );
+    }
+
+    function winA() {
+        updateScene(
+            "Incredibile! Hai trovato la moneta d'oro! La consegni al Troll che, stupito, ti lascia passare. Hai comprato il Recipiente Sacro di Patatine! Il Re è salvo. Buon appetito!",
+            '<button class="btn-restart" onclick="restart()">Gioca ancora</button>',
+            "🏆"
+        );
+    }
+
+    function loseA() {
+        updateScene(
+            "OH NO! Sulla strada c'erano degli alligatori selvaggi! Ti hanno preso e addio Gastone... Niente patatine per te oggi.",
+            '<button class="btn-restart" onclick="restart()">Riprova</button>',
+            "🐊"
+        );
+    }
+
+    // --- PERCORSO B ---
+    function choiceB() {
+        updateScene(
+            "Trovi la signora e ti dà una moneta per il carrello. La dai al Troll ma... è di BRONZO! Il Troll è gentile: 'Ok, ma ora cercami almeno una moneta d'argento, sono facili da trovare'.",
+            '<button onclick="ritornoSignora()">Torna dalla signora</button>',
+            "👵"
+        );
+    }
+
+    function ritornoSignora() {
+        updateScene(
+            "Ritorni dalla signora. Lei sorride e ti offre due materiali misteriosi. Uno vale meno del bronzo, l'altro vale quanto l'argento. Scegli bene!",
+            '<button onclick="winB()">Il Primo Materiale</button>' +
+            '<button onclick="loseB()">Il Secondo Materiale</button>',
+            "✨"
+        );
+    }
+
+    function winB() {
+        updateScene(
+            "Ottimo! Il materiale vale quanto l'argento. Lo consegni al Troll che ti scambia le Patatine Sacre. La missione è compiuta! Buon appetito!",
+            '<button class="btn-restart" onclick="restart()">Gioca ancora</button>',
+            "🍟"
+        );
+    }
+
+    function loseB() {
+        updateScene(
+            "Purtroppo il materiale non vale nulla. Il Troll si è stancato di aspettare e ti caccia via malamente. Hai perso il gioco proprio alla fine!",
+            '<button class="btn-restart" onclick="restart()">Riprova</button>',
+            "😡"
+        );
+    }
+</script>
+
+</body>
+</html>

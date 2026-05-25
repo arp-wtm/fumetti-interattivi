@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yamal a Messina: Missione Camaro</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        #game-container {
+            width: 90%;
+            max-width: 600px;
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 4px solid #ffcc00; /* Giallo Messina */
+            text-align: center;
+        }
+        .comic-panel {
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h1 { color: #ffcc00; font-size: 1.5rem; }
+        p { font-size: 1.1rem; line-height: 1.6; }
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #e61919; /* Rosso Barça/Messina */
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s, background 0.2s;
+        }
+        button:hover {
+            background-color: #ff3333;
+            transform: scale(1.02);
+        }
+        .image-placeholder {
+            width: 100%;
+            height: 150px;
+            background: #444;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+            color: #aaa;
+            border: 2px dashed #666;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <div id="scene" class="comic-panel">
+        <!-- Il contenuto verrà caricato qui via JS -->
+    </div>
+</div>
+
+<script>
+    const story = {
+        start: {
+            text: "Lamine Yamal è appena sceso da un aliscafo privato al porto di Messina. Indossa una felpa scura, ma i ragazzini lo riconoscono subito. 'Voglio vedere il vero cuore della città', dice. Destinazione: Camaro.",
+            image: "🏙️ Yamal guarda lo Stretto di Messina",
+            choices: [
+                { text: "Prendi l'autobus ATM (Linea 13)", next: "bus" },
+                { text: "Sali sul motorino di un tifoso locale", next: "motorino" }
+            ]
+        },
+        bus: {
+            text: "Il bus è affollatissimo. Yamal resta schiacciato tra una nonnina con la spesa e un abbonato del Messina. La nonnina gli offre un'arancina calda. Che fa Lamine?",
+            image: "🚌 Bus 13 verso Camaro Superiore",
+            choices: [
+                { text: "Accetta l'arancina (Rischio dieta!)", next: "arancina" },
+                { text: "Rifiuta gentilmente per non sporcare la maglia", next: "camaro_arrivo" }
+            ]
+        },
+        motorino: {
+            text: "Sfrecciate tra i vicoli, evitando le buche e salutando tutti. Arrivate a Camaro San Paolo in un lampo. L'aria profuma di brace. Un gruppo di ragazzi sta giocando in un campetto di cemento.",
+            image: "🛵 Slalom tra i vicoli di Messina",
+            choices: [
+                { text: "Si unisce subito alla partita", next: "partita" },
+                { text: "Va a mangiare un pitone messinese", next: "pitone" }
+            ]
+        },
+        arancina: {
+            text: "Yamal addenta l'arancina al ragù. 'Increible!', esclama. Ha così tanta energia che quando arriva a Camaro decide di sfidare tutti in una gara di palleggi usando un limone trovato per terra.",
+            image: "🍋 Palleggi acrobatici col limone",
+            choices: [
+                { text: "Vince la sfida e diventa Re di Camaro", next: "re" },
+                { text: "Scivola su una buccia, ma ride con tutti", next: "festa" }
+            ]
+        },
+        partita: {
+            text: "Yamal entra nel campetto. I ragazzi non ci credono. Il capitano della squadra locale, un 15enne di nome 'U Turco', lo marca stretto. Yamal prova un tunnel.",
+            image: "⚽ Yamal vs I ragazzi di Camaro",
+            choices: [
+                { text: "Il tunnel riesce: Boato della piazza!", next: "re" },
+                { text: "U Turco gli ruba palla: Rispetto reciproco", next: "festa" }
+            ]
+        },
+        pitone: {
+            text: "Yamal scopre il Pitone Messinese con la scarola. 'Meglio della paella!', grida. La notizia si sparge: il quartiere blocca le strade per festeggiarlo.",
+            image: "🥟 Yamal mangia il Pitone",
+            choices: [
+                { text: "Organizza una festa in piazza", next: "festa" }
+            ]
+        },
+        re: {
+            text: "Yamal viene incoronato 'Principe di Camaro'. Promette che se vince il prossimo Pallone d'Oro, porterà la coppa a Messina per una granita con brioche.",
+            image: "👑 Yamal con la sciarpa del Messina",
+            choices: [
+                { text: "Ricomincia il viaggio", next: "start" }
+            ]
+        },
+        festa: {
+            text: "La serata finisce con musica neomelodica e balli di gruppo. Yamal ha imparato il dialetto: 'Sempri fozza Missina!'. Torna a Barcellona con il cuore pieno di calore siciliano.",
+            image: "🎉 Festa grande a Camaro",
+            choices: [
+                { text: "Ricomincia il viaggio", next: "start" }
+            ]
+        },
+        camaro_arrivo: {
+            text: "Arrivato a Camaro, Yamal vede un murale che lo raffigura insieme a leggende del calcio. Si commuove e decide di regalare 100 palloni alla scuola calcio locale.",
+            image: "🎨 Murale di Yamal a Camaro",
+            choices: [
+                { text: "Organizza una partita finale", next: "partita" }
+            ]
+        }
+    };
+
+    function renderScene(sceneId) {
+        const scene = story[sceneId];
+        const container = document.getElementById('scene');
+        
+        container.innerHTML = `
+            <div class="image-placeholder">${scene.image}</div>
+            <p>${scene.text}</p>
+            <div class="choices">
+                ${scene.choices.map(choice => `
+                    <button onclick="renderScene('${choice.next}')">${choice.text}</button>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    // Inizia la storia
+    renderScene('start');
+</script>
+
+</body>
+</html>
